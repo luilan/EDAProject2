@@ -8,7 +8,7 @@ main <- function() {
     NEI  <- Data[[1]]
     SCC  <- Data[[2]]
     
-    # Subset for Baltimore and LA County, filter for vehicle emissions only and merge
+    # Subset for Baltimore 
     merged <- extract.baltimore.vehicles.emissions.data(NEI,SCC)    
     
     # Group and sum emissions from the merged data

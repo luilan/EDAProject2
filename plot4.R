@@ -9,8 +9,8 @@ main <- function() {
     NEI  <- Data[[1]]
     SCC  <- Data[[2]]
     
-    # Subset for Baltimore and LA County, filter for vehicle emissions only and merge
-    merged <- extract.US.coal.cimbustion.data(NEI,SCC)    
+    # Subset for US coal combustion
+    merged <- extract.US.coal.combustion.data(NEI,SCC)    
     
     # Group and sum emissions from the merged data
     emissions_by_year <- group.by.year.and.sum(merged)
@@ -37,7 +37,7 @@ load.NEI.SCC.dataset <- function() {
 }
 
 
-extract.US.coal.cimbustion.data <- function(NEI,SCC) {
+extract.US.coal.combustion.data <- function(NEI,SCC) {
     coal.combustion = SCC[grep("Fuel Comb.*?coal",SCC$EI.Sector,ignore.case = T),c(1,4)]
     merged = merge(NEI,coal.combustion,by.x="SCC",by.y="SCC")
 }
@@ -69,56 +69,3 @@ write.png  <- function(g,filename) {
     dev.off() 
     g
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-####################################################
-
-
-
-
-# For info on formatting:
-# http://docs.ggplot2.org/0.9.3/theme.html
-## Load the dataset
-# NEI <- readRDS("summarySCC_PM25.rds")
-# SCC <- readRDS("Source_Classification_Code.rds")
-# 
-# 
-# coal.combustion = SCC[grep("coal",SCC$Short.Name,ignore.case = T),c(1,3)]
-# merged = merge(NEI,coal.combustion,by.x="SCC",by.y="SCC")
-# 
-# 
-# ## Group the dataset by year and sum the PM2.5 emissions
-# by_year = group_by(merged,year)
-# emissions_by_year = summarise(by_year,emissions = sum(Emissions,na.rm = T))
-# 
-# ## Plot the PM2.5 emissions by year in all U.S.
-# plot4 <- function(emissions_by_year) {
-#     
-#     plot(
-#         emissions_by_year$year,
-#         emissions_by_year$emissions/1000, 
-#         main = "PM2.5 U.S. Total Emissions by Coal Combustion",
-#         xlab = "year",
-#         ylab ="Emissions in Thousands of tons",
-#         type = "o", 
-#         pch= 20
-#     )
-#     
-#     fit <- lm(emissions_by_year$emissions/1000 ~ emissions_by_year$year)
-#     abline(fit,col="red", lwd=3)
-#     
-# }
-# 
-# 
-# plot4(emissions_by_year)
